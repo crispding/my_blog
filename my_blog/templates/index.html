@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+BU's Blog：首页
+{% endblock title %}
+
+
+{% block content %}
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center">
+        <h1 class="heading">BU's Blog</h1>
+        <div class="intro">白昼朗朗，黑夜茫茫，魑魅魍魉，无所遁藏。恶徒奸党，惧吾神光，绿灯长明，万世光芒！</div>
+        <form class="signup-form form-inline justify-content-center pt-3">
+            <div class="form-group">
+                <label class="sr-only" for="search">搜索</label>
+                <input type="text" id="search" name="search" class="form-control mr-md-1" placeholder="输入搜索内容">
+            </div>
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+</section>
+
+<section class="blog-list px-3 py-5 p-md-5">
+    <div class="col-md-6 px-3">
+        <h2 class="display-8">最新文章</h2>
+    </div>
+    <div class="row mb-2">
+        {% for article in articles %}
+            <div class="col-md-6">
+            <div class="row no-gutters rounded overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-primary">
+                    {% for tag in article.tags.all %}
+                        <a href="{% url 'index:article_list' %}?tag={{ tag }}" class="badge badge-secondary">{{ tag }}</a>
+                    {% endfor %}
+                </strong>
+                <h3 class="mb-0">{{ article.title }}</h3>
+                <div class="meta mb-1"><span class="date">{{ article.created }}</span><span class="time">{{ article.total_views }} 阅读</span></div>
+                <p class="card-text mb-auto">{{ article.excerpt }}...</p>
+                <a href="{% url 'index:article_detail' article.id %}" class="stretched-link">继续阅读 &rarr;</a>
+                </div>
+                <!-- <div class="col-auto d-none d-lg-block">
+                <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+        
+                </div> -->
+            </div>
+            </div>
+        {% endfor %}
+      </div>
+      <div class="col-md-6 px-3">
+        <p class="lead mb-0"><a href="{% url 'index:article_list' %}" class="font-weight-bold">更多……</a></p>  
+      </div>  
+</section>
+
+{% endblock content %}

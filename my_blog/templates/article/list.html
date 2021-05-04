@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+BU's Blog：首页
+{% endblock title %}
+
+
+{% block content %}
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center">
+        <form class="signup-form form-inline justify-content-center pt-3">
+            <div class="form-group">
+                <label class="sr-only" for="search">搜索</label>
+                <input type="text" id="search" name="search" class="form-control mr-md-1" placeholder="输入搜索内容">
+            </div>
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+</section>
+<section class="blog-list px-3 py-5 p-md-5">
+    <div class="container">
+        {% if search %}
+            {% if articles %}
+                <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
+                <hr>        
+            {% else %}
+                <h4>暂无<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
+                <hr>
+            {% endif %}
+        {% endif %}
+        {% for article in articles %}
+        <div class="item mb-5">
+            <div class="media">
+                <!-- <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{% static 'assets/images/blog/blog-post-thumb-1.jpg' %}" alt="image"> -->
+                <div class="media-body">
+                    <h3 class="title mb-1"><a href="{% url 'index:article_detail' article.id %}">{{ article.title }}</a></h3>
+                    <div class="meta mb-1">
+                        <span class="date">{{ article.created }}</span>
+                        <span class="time">{{ article.total_views }} 阅读</span>
+                        <span class="comment"><a href="#">8 comments</a></span>
+                        <span>
+                            {% for tag in article.tags.all %}
+                                <a href="{% url 'index:article_list' %}?tag={{ tag }}" class="badge badge-light">{{ tag }}</a>
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <div class="intro">{{ article.excerpt }}...</div>
+                    <a class="more-link" href="{% url 'index:article_detail' article.id %}">继续阅读 &rarr;</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- 翻页导航 -->
+    <nav class="blog-nav nav nav-justified my-5">
+        {% if articles.has_previous %}
+        <a class="nav-link-prev nav-item nav-link rounded-left"
+            href="?page={{ articles.previous_page_number }}&search={{ search }}&tag={{ tag }}">Previous<i
+                class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
+        {% endif %}
+
+        {% if articles.has_next %}
+        <a class="nav-link-next nav-item nav-link rounded" href="?page={{ articles.next_page_number }}&search={{ search }}&tag={{ tag }}">Next<i
+                class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+        {% endif %}
+    </nav>
+    
+    <!-- 页码 -->
+    <div class="pagination row">
+        <div class="m-auto">
+            <span class="step-links">
+                {% if articles.has_previous %}
+                    <a href="?page=1&search={{ search }}&tag={{ tag }}" class="font-paginator">
+                        &laquo; 1
+                    </a>
+                    <span>...</span>
+                {% endif %}
+                
+                {% if articles.paginator.num_pages > 1 %}
+                    <span class="font-paginator" style="font-size: x-large">
+                        {{ articles.number }}
+                    </span>
+                {% endif %}
+
+                {% if articles.has_next %}
+                    <span>...</span>
+                    <a href="?page={{ articles.paginator.num_pages }}&search={{ search }}&tag={{ tag }}" class="font-paginator">
+                        {{ articles.paginator.num_pages }} &raquo;
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    
+</section>
+
+{% endblock content %}

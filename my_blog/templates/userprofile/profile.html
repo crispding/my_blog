@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+BU's Blog：用户页面
+{% endblock title %}
+
+{% block content %}
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center">
+        <h1 class="heading">BU's Blog</h1>
+        <div class="intro">白昼朗朗，黑夜茫茫，魑魅魍魉，无所遁藏。恶徒奸党，惧吾神光，绿灯长明，万世光芒！</div>
+    </div>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% if user.is_authenticated %}
+            <h4 class="title mb-2 text-center">{{ user.username }} 已登录</h4>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'index:article_create' %}"><i class="fas fa-plus-square fa-fw mr-2"></i>新建文章</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'userprofile:logout' %}"><i class="fas fa-sign-out-alt fa-fw mr-2"></i>退出登录</a>
+            </div>
+            {% else %}
+            <h4 class="title mb-2 text-center">用户未登录，点击下方按钮登录</h4>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'userprofile:login' %}"><i class="fas fa-sign-in-alt fa-fw mr-2"></i>登录</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

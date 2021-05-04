@@ -1,0 +1,115 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="zh-cn" class="h-100">
+
+<head>
+	<title>{% block title %}{% endblock %}</title>
+
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Blog Template">
+	<meta name="author" content="Xiaoying Riley at 3rd Wave Media">
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+	<!-- FontAwesome JS-->
+	<script defer src="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.7.1/js/all.js"></script>
+
+	<!-- Plugin CSS -->
+	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.14.2/styles/monokai-sublime.min.css">
+
+	<!-- Theme CSS -->
+	<link id="theme-style" rel="stylesheet" href="{% static 'assets/css/theme-6.css' %}">
+
+</head>
+
+<body>
+
+	<header class="header text-center">
+		<h1 class="blog-name pt-lg-4 mb-0"><a href="{% url 'index:index' %}">BU's Blog</a></h1>
+		<nav class="navbar navbar-expand-lg navbar-dark">
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+				aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div id="navigation" class="collapse navbar-collapse flex-column">
+				<div class="profile-section pt-3 pt-lg-0">
+					<img class="profile-image mb-3 rounded-circle mx-auto"
+						src="{% static 'assets/images/profile.png' %}" alt="image">
+
+					<div class="bio mb-3">
+						大家好，欢迎访问 BU's Blog。<br>这是一个基于Django搭建的博客系统，比较简陋，纯属自娱自乐。
+					</div>
+					<!--//bio-->
+					<ul class="social-list list-inline py-3 mx-auto">
+						<li class="list-inline-item"><a href="https://weibo.com/crispding" target="_blank"><i class="fab fa-weibo fa-fw"></i></a></li>
+						<li class="list-inline-item"><a href="https://github.com/crispding" target="_blank"><i class="fab fa-github-alt fa-fw"></i></a></li>
+						<li class="list-inline-item"><a href="mailto:BU_Blog@outlook.com"><i class="far fa-envelope fa-fw"></i></i></a></li>
+					</ul>
+					<!--//social-list-->
+					<hr>
+				</div>
+				<!--//profile-section-->
+				<ul class="navbar-nav flex-column text-left">
+					<li class="nav-item {{ index_active }}">
+						<a class="nav-link" href="{% url 'index:index' %}"><i class="fas fa-home fa-fw mr-2"></i>博客首页 <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item {{ article_list_active }}">
+						<a class="nav-link" href="{% url 'index:article_list' %}"><i class="fas fa-bookmark fa-fw mr-2"></i>文章列表</a>
+					</li>
+					<li class="nav-item">
+						{% if user.is_authenticated %}
+							<a class="nav-link" href="{% url 'userprofile:profile' %}"><i class="fas fa-user fa-fw mr-2"></i>用户页面</a>
+						{% else %}
+							<a class="nav-link" href="{% url 'userprofile:login' %}"><i class="fas fa-sign-in-alt fa-fw mr-2"></i>用户登录</a>
+						{% endif %}
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<div class="main-wrapper">
+
+		<div id="wrapper">
+			{% block content %}{% endblock content %}
+		</div>
+
+		<footer class="footer text-center py-2 theme-bg-dark" id="footer">
+
+			<!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
+			<small class="copyright">Designed with <i class="fas fa-heart" style="color: #fb866a;"></i> by <a
+					href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
+			<small class="copyright"><a href="http://beian.miit.gov.cn/" target="_blank">浙ICP备2021007773号</a></small>
+		</footer>
+
+	</div>
+
+	<!-- Javascript -->
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="{% static 'assets/plugins/popper.min.js' %}"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.3.0/js/bootstrap.min.js"></script>
+
+	<!-- Page Specific JS -->
+	<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
+
+	<!-- Custom JS -->
+	<script src="{% static 'assets/js/blog.js' %}"></script>
+	
+	<style>
+		#wrapper {
+			min-height: calc(100vh - 45px);
+		}
+
+		#footer {
+			height: 45px;
+		}
+	</style>
+
+</body>
+
+</html>
