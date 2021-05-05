@@ -15,13 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from os.path import abspath, dirname, join
+from os.environ import get as env_get
 
-BASE_DIR = dirname(dirname(abspath(__file__)))
-admin_path_file = join(BASE_DIR, "admin_path.txt")
-with open(admin_path_file, 'r') as f:
-    admin_path = f.readline()
-admin_path = admin_path.strip('\n')
+
+admin_path = env_get('DJANGO_ADMIN_PATH')
 
 urlpatterns = [
     path(admin_path, admin.site.urls),
