@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from os.environ import get as env_get
+from os import environ
 
 
-admin_path = env_get('DJANGO_ADMIN_PATH')
+admin_path = environ.get('DJANGO_ADMIN_PATH')
 
 urlpatterns = [
     path(admin_path, admin.site.urls),
